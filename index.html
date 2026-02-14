@@ -81,6 +81,28 @@
                     <span class="text-pyblue">&lt;</span>Daicha<span class="text-kotpurple">/&gt;</span>
                 </div>
 
+                <!-- МОБИЛЬНАЯ КНОПКА PDF -->
+                <div class="flex md:hidden items-center ml-auto">
+                    <div id="pdf-download-menu-mobile" class="relative group">
+                        <button class="w-10 h-10 rounded-full bg-red-600 active:bg-red-700 text-white flex items-center justify-center transition-colors shadow-md">
+                            <i class="fas fa-file-pdf text-lg"></i>
+                        </button>
+                        
+                        <!-- Меню: добавлено max-w и overflow-hidden, чтобы не вылезало -->
+                        <div class="absolute right-0 top-12 w-48 max-w-[90vw] bg-gray-800 border border-gray-700 rounded-lg shadow-xl invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-200 z-50 overflow-hidden">
+                            <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-900/50">
+                                Скачать резюме
+                            </div>
+                            <a href="/Portfolio_Desktop.pdf" download class="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 hover:text-white border-b border-gray-700 flex items-center gap-3">
+                                <i class="fas fa-desktop text-gray-400"></i> Десктоп
+                            </a>
+                            <a href="/Portfolio_Mobile.pdf" download class="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 hover:text-white flex items-center gap-3">
+                                <i class="fas fa-mobile-alt text-gray-400 pl-0.5"></i> Мобильная
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Десктопное Меню -->
                 <div class="hidden md:flex items-center">
                     <div id="nav-links" class="ml-10 flex items-baseline space-x-8 nav-links-container">
@@ -324,6 +346,9 @@
                     <a href="https://t.me/daichitakedakz" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 btn-center text-gray-400 hover:bg-blue-500 hover:text-white transition-all text-2xl shadow-lg border border-gray-700 hover:scale-110">
                         <i class="fab fa-telegram-plane"></i>
                     </a>
+                    <a href="https://wa.me/+77012439738" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 btn-center text-gray-400 hover:bg-green-500 hover:text-white transition-all text-2xl shadow-lg border border-gray-700 hover:scale-110">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                     <a href="mailto:daichaapps@gmail.com" class="w-12 h-12 rounded-full bg-gray-800 btn-center text-gray-400 hover:bg-red-500 hover:text-white transition-all text-2xl shadow-lg border border-gray-700 hover:scale-110">
                         <i class="fas fa-envelope"></i>
                     </a>
@@ -333,6 +358,46 @@
         </footer>
 
     </main>
+
+    <!-- Скрипт для скрытия выпадающего меню после клика -->
+   <!-- Скрипт для авто-скрытия меню на мобильных -->
+<!-- Исправленный скрипт для меню -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Список ID наших меню (десктоп и мобилка)
+            const menuIds = ['#pdf-download-menu', '#pdf-download-menu-mobile'];
+
+            menuIds.forEach(id => {
+                const root = document.querySelector(id);
+                if (!root) return;
+
+                const button = root.querySelector('button');
+                const menuContent = root.querySelector('div.absolute');
+                const links = root.querySelectorAll('a');
+
+                // Функция "разблокировки" меню (возвращаем как было в CSS)
+                const resetMenu = () => {
+                    menuContent.style.display = ''; 
+                };
+
+                // 1. При попытке открыть меню снова (клик или тап по иконке) - убираем скрытие
+                button.addEventListener('click', resetMenu);
+                button.addEventListener('touchstart', resetMenu, { passive: true });
+                root.addEventListener('mouseenter', resetMenu); // Для десктопа
+
+                // 2. При клике на ссылку скачивания
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        // Жестко скрываем меню
+                        menuContent.style.display = 'none';
+                        // Снимаем фокус с кнопки, чтобы убрать CSS-состояния
+                        button.blur();
+                    });
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
 
